@@ -1,0 +1,44 @@
+name: Flujo de Desarrollo (CI/CD Básico)
+
+# ¿Cuándo se ejecutará este flujo?
+on:
+  push:
+    branches:
+      - main # Se ejecuta automáticamente cuando subes cambios a la rama principal (main)
+  workflow_dispatch: # Permite ejecutar el flujo manualmente desde la página de GitHub
+
+# Variables de entorno disponibles para todo el flujo
+env:
+  AMBIENTE: "Desarrollo Local/Pruebas"
+
+jobs:
+  construir-y-probar:
+    runs-on: ubuntu-latest # Usamos un servidor de Linux proporcionado por GitHub
+
+    steps:
+      - name: 1. Descargar el código del proyecto
+        uses: actions/checkout@v4
+
+      - name: 2. Mostrar variables y contexto de GitHub
+        run: |
+          echo "========================================"
+          echo "Este flujo se está ejecutando en el ambiente: $AMBIENTE"
+          echo "El usuario que activó este flujo es: ${{ github.actor }}"
+          echo "El nombre de este repositorio es: ${{ github.repository }}"
+          echo "La rama actual es: ${{ github.ref }}"
+          echo "========================================"
+          
+      - name: 3. Simular la preparación del ambiente
+        run: |
+          echo "Preparando las herramientas necesarias para el proyecto..."
+          sleep 2 # Espera 2 segundos
+          echo "¡Ambiente listo!"
+
+      - name: 4. Simular pruebas automatizadas (Testing)
+        run: |
+          echo "Verificando que el código no tenga errores..."
+          # Aquí irían los comandos reales de prueba, por ejemplo: npm test
+          echo "El archivo index.html existe:"
+          ls -la index.html
+          echo "¡Todas las pruebas pasaron con éxito!"
+          
